@@ -1,46 +1,36 @@
-name: Nodejs Demo of CI
+name: Node.js CI
 
 on:
-  push: 
-    branches: 
-      'main'
-  pull_request: 
-    branches: 
-      "main"
-  
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    steps: 
-      #1: Checkout code
+    steps:
+      # 1. Checkout code
       - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
-        
-      #2: Setup Node.js
-      - name: setup Node.js
-        # uses: actions/checkout@v3
-        uses: actions/setup-node@v3
-        with: 
+        with:
           node-version: 18
           cache: "npm"
-          # cache-dependency-path: package-lock.json
+          cache-dependency-path: package-lock.json
 
       # 3. Install dependencies
       - name: Install dependencies
-        run: npm install   
+        run: npm install
 
-      # 4. Linting
+      # 4. Run Linter
       - name: Run Linter
         run: npm run lint
-      
-      # 5. Run Tests with Coverage
+
+      # 5. Run Tests
       - name: Run Tests
         run: npm test
-
-      # 6. Upload test coverage report (artifact)
-      # - name: Upload coverage report
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: coverage-report
-      #     path: coverage/
