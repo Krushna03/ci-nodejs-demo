@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "jest --coverage",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "lint": "eslint ."
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "eslint": "^9.37.0",
     "jest": "^30.2.0",
     "nodemon": "^3.1.10",
