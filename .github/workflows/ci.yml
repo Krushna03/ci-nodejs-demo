@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
+      # 1. Checkout code, this pulls my repo code on ubuntu machine and runs the code over there
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -34,3 +34,11 @@ jobs:
       # 5. Run Tests
       - name: Run Tests
         run: npm test
+
+      # 6. Upload coverage report as artifact
+      - name: Upload coverage
+        uses: actions/upload-artifact@v3
+        with: 
+          name: coverage-report
+          path: coverage/
+        
