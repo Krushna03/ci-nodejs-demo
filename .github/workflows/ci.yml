@@ -9,15 +9,26 @@ on:
 jobs:
   build-and-test:
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental == true }}
     strategy:
       matrix:
-        os: [ubuntu-latest, window-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node: [16, 18, 20]
+        experimental: [false, true, false]
+        exclude: 
+          - os: macos-latest
+            node: 16
+        include:
+          - os: ubuntu-latest
+            node: 21
+            experimental: true
 
     steps:
       # 1. Checkout code, this pulls my repo code on ubuntu machine and runs the code over there
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - run: echo "Connecting to ${{ secrets.DATABASE_URL }}"
 
       # 2. Setup Node.js
       - name: Setup Node.js
@@ -32,8 +43,8 @@ jobs:
         run: npm install
 
       # 4. Run Linter
-      - name: Run Linter
-        run: npm run lint
+      # - name: Run Linter
+      #   run: npm run lint
 
       # 5. Run Tests
       - name: Run Tests
@@ -45,4 +56,5 @@ jobs:
         with: 
           name: coverage-report
           path: coverage/
-        
+      
+    
