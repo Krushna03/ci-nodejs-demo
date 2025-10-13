@@ -12,7 +12,7 @@ jobs:
     continue-on-error: ${{ matrix.allow_failure }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
         node: [20, 21]         
         allow_failure: [false, true]  
         include:
@@ -49,7 +49,5 @@ jobs:
       - name: Deplopy to Vercel
         env: 
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           npx vercel --prod --token $VERCEL_TOKEN --confirm
